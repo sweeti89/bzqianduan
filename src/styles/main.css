@@ -1,0 +1,270 @@
+/* ========== 全局基础 ========== */
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --van-cell-group-inset-border-radius: 12px;
+  --bw-primary: #1989fa;
+  --bw-radius: 14px;
+  --bw-shadow: 0 2px 12px rgba(30, 60, 114, 0.06);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body {
+  margin: 0;
+  background: #f7f8fa;
+  color: #323233;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
+    Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB',
+    'Microsoft Yahei', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ========== 个性化壁纸层 ========== */
+.wallpaper-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+/* 壁纸上叠一层浅色薄雾，保证深色文字可读 */
+.wallpaper-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(247, 248, 250, 0.62);
+}
+.app-shell {
+  position: relative;
+  z-index: 1;
+}
+
+/* ========== 轻量页头：融入壁纸，无色块 ========== */
+.page-head {
+  padding: 24px 20px 14px;
+}
+.head-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #323233;
+  letter-spacing: 0.5px;
+}
+.head-sub {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #969799;
+}
+.page-body {
+  position: relative;
+}
+
+/* 内容卡通用质感 */
+.card-panel {
+  background: #fff;
+  border-radius: var(--bw-radius);
+  box-shadow: var(--bw-shadow);
+}
+
+/* 玻璃卡（叠在壁纸上） */
+.glass-card {
+  background: rgba(255, 255, 255, 0.66);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 18px rgba(30, 60, 114, 0.1);
+}
+
+/* 淡彩图标底座（浅底 + 彩色图标，颜色由各处内联指定） */
+.icon-chip {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  font-size: 18px;
+  flex: none;
+}
+
+/* 底部标签栏：选中项胶囊高亮 */
+.van-tabbar-item {
+  position: relative;
+}
+.van-tabbar-item--active::before {
+  content: '';
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 6px;
+  bottom: 6px;
+  background: rgba(25, 137, 250, 0.1);
+  border-radius: 14px;
+}
+.van-tabbar-item__icon,
+.van-tabbar-item__text {
+  position: relative;
+  z-index: 1;
+}
+.van-tabbar-item--active {
+  font-weight: 600;
+}
+
+/* ========== 兼容旧引用 ========== */
+.page-subtitle {
+  font-size: 12px;
+  color: #969799;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 12px;
+}
+
+.stats-bar {
+  padding: 0 16px 8px;
+  font-size: 12px;
+  color: #969799;
+}
+
+/* ========== 路由切换转场 ========== */
+.page-enter-active {
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+.page-leave-active {
+  transition: opacity 0.14s ease-in;
+}
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(14px);
+}
+.page-leave-to {
+  opacity: 0;
+}
+
+/* ========== 列表错峰入场 ========== */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.stagger > * {
+  animation: fade-up 0.4s var(--ease-out-soft) both;
+}
+.stagger > *:nth-child(1) { animation-delay: 0.02s }
+.stagger > *:nth-child(2) { animation-delay: 0.07s }
+.stagger > *:nth-child(3) { animation-delay: 0.12s }
+.stagger > *:nth-child(4) { animation-delay: 0.17s }
+.stagger > *:nth-child(5) { animation-delay: 0.22s }
+.stagger > *:nth-child(6) { animation-delay: 0.27s }
+.stagger > *:nth-child(7) { animation-delay: 0.32s }
+.stagger > *:nth-child(n + 8) { animation-delay: 0.36s }
+
+/* ========== 按压反馈 ========== */
+.wb-card,
+.affair-card,
+.fab,
+.att-item {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.wb-card:active,
+.affair-card:active,
+.fab:active {
+  transform: scale(0.97);
+}
+.van-cell:active {
+  background-color: #f2f3f5;
+}
+
+/* ========== 标签栏图标弹出 ========== */
+.van-tabbar-item--active .van-icon {
+  animation: pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes pop {
+  from {
+    transform: scale(0.65);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* ========== 进度条平滑 ========== */
+.van-progress__portion {
+  transition: width 0.6s var(--ease-out-soft);
+}
+
+/* ========== 待办勾选划线动效 ========== */
+.todo-title {
+  position: relative;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.todo-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 55%;
+  height: 1px;
+  background: #c8c9cc;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.todo-title.done {
+  color: #c8c9cc;
+}
+.todo-title.done::after {
+  animation: strike 0.35s ease both;
+}
+@keyframes strike {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ========== 弹窗表单 ========== */
+.form-wrap {
+  padding: 16px 0 24px;
+}
+
+.form-title {
+  text-align: center;
+  font-weight: 600;
+  padding-bottom: 12px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  padding: 16px 16px 0;
+}
+
+/* 工作台右下角的悬浮添加按钮 */
+.fab {
+  position: fixed;
+  right: 20px;
+  bottom: 76px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1989fa, #45a6ff);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 4px 14px rgba(25, 137, 250, 0.45);
+  z-index: 10;
+  cursor: pointer;
+}
